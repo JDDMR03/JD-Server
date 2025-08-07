@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>JD Server - Archivo</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h1 { color: #333; }
+        #file-list a { display: block; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <h1>JD Server - Subir y Descargar Archivos</h1>
+    <form id="upload-form">
+        <input type="file" id="file-input" name="file" required />
+        <button type="submit">Subir Archivo</button>
+    </form>
+    <h2>Archivos disponibles:</h2>
+    <div id="file-list">Cargando...</div>
+
+    <script>
+        async function fetchFiles() {
+            const res = await fetch('/files');
+            const data = await res.json();
+            const listDiv = document.getElementById('file-list');
+            if (data.files.length === 0) {
+                listDiv.innerHTML = '<p>No hay archivos disponibles.</p>';
+                return;
+            }
+            listDiv.innerHTML = '';
+            data.files.forEach(file => {
+                const a = document.createElement('a');
+                a.href = `/download/${encodeURIComponent(file)}`;
+                a.textContent = file;
+                a.download = file;
+                listDiv.appendChild(a);
+            });
+        }
+
+        document.getElementById('upload-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const input = document.getElementById('file-input');
+            const formData = new FormData();
+            formData.append('file', input.files[0]);
+
+            const res = await fetch('/upload', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await res.json();
+            alert(data.message);
+            input.value = '';
+            fetchFiles();
+        });
+
+        // Carga inicial
+        fetchFiles();
+    </script>
+</body>
+</html>

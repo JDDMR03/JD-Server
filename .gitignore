@@ -1,0 +1,44 @@
+# Entorno virtual
+venv/
+ENV/
+env/
+.env/
+
+# Bytecode de Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Archivos de logs
+*.log
+
+# Carpeta de uploads (puedes ignorarla si no quieres subir archivos)
+uploads/
+
+# Configuraciones de IDEs comunes
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Archivos de sistema (Mac, Windows)
+.DS_Store
+Thumbs.db
+
+# Archivos de test coverage
+.coverage
+htmlcov/
+*.cover
+*.py,cover
+
+# Dependencias instaladas con pipenv o poetry (si usaras alguno)
+Pipfile.lock
+poetry.lock
+
+# Docker
+docker-compose.override.yml
+*.dockerfile
+
+# Otros archivos temporales
+*.swp
+*.tmp
